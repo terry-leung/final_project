@@ -1,10 +1,14 @@
 package com.fsse2305.final_project.data.cartItem.dto.response;
 
 import com.fsse2305.final_project.data.cartItem.domainObject.CartItemDetailsData;
+import com.fsse2305.final_project.exception.CartItemModifyingException;
 
 public class CartModifyingResponseDto {
     private String result;
 
+    public CartModifyingResponseDto(boolean isSuccess){
+        this.result = isSuccess ? "SUCCESS" : "FAILED" ;
+    }
     public CartModifyingResponseDto(CartItemDetailsData data){
         this.result = (data != null) ? "SUCCESS" : "FAILED" ;
     }
@@ -13,7 +17,7 @@ public class CartModifyingResponseDto {
         return result;
     }
 
-    public void setResult(String result) {
+    private void setResult(String result) {
         this.result = result;
     }
 }

@@ -35,14 +35,11 @@ public class CartItemApi {
 
     @GetMapping()
     public List<CartItemResponseDto> getUserCart(JwtAuthenticationToken jwtToken){
-        FirebaseUserData firebaseUserData = JwtUtil.getFirebaseUserData(jwtToken);
-        List<CartItemDetailsData> cartItemDetailsDataList = cartItemService.getUserCartItems(firebaseUserData);
         List<CartItemResponseDto> cartItemResponseDtoList = new ArrayList<>();
-        for (CartItemDetailsData cartItemDetailsData : cartItemDetailsDataList){
-            CartItemResponseDto cartItemResponseDto = new CartItemResponseDto(cartItemDetailsData);
-            cartItemResponseDtoList.add(cartItemResponseDto);
-        }
 
+        for (CartItemDetailsData cartItemDetailsData : cartItemService.getUserCartItems(JwtUtil.getFirebaseUserData(jwtToken))){
+            cartItemResponseDtoList.add(new CartItemResponseDto(cartItemDetailsData));
+        }
         return cartItemResponseDtoList;
     }
 
@@ -56,10 +53,9 @@ public class CartItemApi {
 
     @DeleteMapping("/{pid}")
     public CartModifyingResponseDto deleteCartItem(JwtAuthenticationToken jwtToken, @PathVariable Integer pid){
-        FirebaseUserData firebaseUserData = JwtUtil.getFirebaseUserData(jwtToken);
-        CartItemDetailsData cartItemDetailsData = cartItemService.deleteCartItem(firebaseUserData, pid);
+        boolean ifSuccess = cartItemService.deleteCartItem(JwtUtil.getFirebaseUserData(jwtToken), pid);
 
-        return new CartModifyingResponseDto(cartItemDetailsData);
+        return new CartModifyingResponseDto(ifSuccess);
     }
 }
 

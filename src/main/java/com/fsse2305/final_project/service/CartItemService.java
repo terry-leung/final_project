@@ -14,5 +14,5 @@ public interface CartItemService {
     CartItemDetailsData updateCartQuantity(FirebaseUserData firebaseUserData, Integer pid, Integer quantity);
 
     @Transactional
-    CartItemDetailsData deleteCartItem(FirebaseUserData firebaseUserData, Integer pid);
+    boolean deleteCartItem(FirebaseUserData firebaseUserData, Integer pid);
 }

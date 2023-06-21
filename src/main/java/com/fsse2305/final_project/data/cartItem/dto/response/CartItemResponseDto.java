@@ -1,5 +1,6 @@
 package com.fsse2305.final_project.data.cartItem.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fsse2305.final_project.data.cartItem.domainObject.CartItemDetailsData;
 import com.fsse2305.final_project.data.product.domainObject.ProductDetailsData;
 import com.fsse2305.final_project.data.product.dto.response.ProductDetailsResponseDto;
@@ -9,8 +10,10 @@ import java.math.BigDecimal;
 public class CartItemResponseDto {
     private Integer pid;
     private String name;
+    @JsonProperty("image_url")
     private String imageUrl;
     private BigDecimal price;
+    @JsonProperty("cart_quantity")
     private Integer quantity;
     private Integer stock;
 

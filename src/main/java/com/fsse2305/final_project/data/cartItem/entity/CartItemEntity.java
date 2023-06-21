@@ -26,8 +26,8 @@ public class CartItemEntity {
     public CartItemEntity(){
 
     }
-    public CartItemEntity(ProductDetailsData userCartItem, UserEntity loginUser, Integer quantity) {
-//        this.product = userCartItem.getPid();
+    public CartItemEntity(ProductEntity entity, UserEntity loginUser, Integer quantity) {
+        this.product = entity;
         this.user = loginUser;
         this.quantity = quantity;
     }
