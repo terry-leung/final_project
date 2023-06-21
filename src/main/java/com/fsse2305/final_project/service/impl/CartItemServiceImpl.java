@@ -134,6 +134,10 @@ public class CartItemServiceImpl implements CartItemService {
         return true;
     }
 
+    @Override
+    public List<CartItemEntity> getCartItems(UserEntity cartUser){
+        return cartItemRepository.getAllCartItemsByUid(cartUser.getUid());
+    }
 //    need to throw ex in main method
 //    public void getEntityByUidAndPid(Integer uid , Integer pid){
 //        Optional<CartItemEntity> optionalCartItemEntity = cartItemRepository.findCartItemsByUidAndPid(uid, pid);
