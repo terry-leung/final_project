@@ -1,15 +1,14 @@
-package com.fsse2305.final_project.data.cartItem.dto.response;
+package com.fsse2305.final_project.resultStatus;
 
 import com.fsse2305.final_project.data.cartItem.domainObject.CartItemDetailsData;
-import com.fsse2305.final_project.exception.CartItemModifyingException;
 
-public class CartModifyingResponseDto {
+public class ResultResponseDto {
     private String result;
 
-    public CartModifyingResponseDto(boolean isSuccess){
+    public ResultResponseDto(boolean isSuccess){
         this.result = isSuccess ? "SUCCESS" : "FAILED" ;
     }
-    public CartModifyingResponseDto(CartItemDetailsData data){
+    public ResultResponseDto(CartItemDetailsData data){
         this.result = (data != null) ? "SUCCESS" : "FAILED" ;
     }
 

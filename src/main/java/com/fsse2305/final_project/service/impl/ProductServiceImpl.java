@@ -83,4 +83,9 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(pid).orElseThrow(ProductNotFoundException::new);
     }
 
+    @Override
+    public void setProductStockByEntity(ProductEntity entity, Integer quantity){
+        productRepository.setProductStockByPid(entity.getPid(), quantity);
+    }
+
 }

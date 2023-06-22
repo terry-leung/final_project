@@ -15,4 +15,6 @@ public interface ProductService {
     ProductDetailsData getProductById(Integer pid);
 
     ProductEntity getProductEntityByPid(Integer pid);
+
+    void setProductStockByEntity(ProductEntity entity, Integer quantity);
 }

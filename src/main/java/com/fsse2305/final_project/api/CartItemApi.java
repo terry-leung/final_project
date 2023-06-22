@@ -2,12 +2,11 @@ package com.fsse2305.final_project.api;
 
 import com.fsse2305.final_project.data.cartItem.domainObject.CartItemDetailsData;
 import com.fsse2305.final_project.data.cartItem.dto.response.CartItemResponseDto;
-import com.fsse2305.final_project.data.cartItem.dto.response.CartModifyingResponseDto;
+import com.fsse2305.final_project.resultStatus.ResultResponseDto;
 import com.fsse2305.final_project.data.user.domainObject.FirebaseUserData;
 import com.fsse2305.final_project.service.CartItemService;
 import com.fsse2305.final_project.utility.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,11 +25,11 @@ public class CartItemApi {
     }
 
     @PutMapping("/{pid}/{quantity}")
-    public CartModifyingResponseDto putCartItem(JwtAuthenticationToken jwtToken, @PathVariable Integer pid, @PathVariable Integer quantity){
+    public ResultResponseDto putCartItem(JwtAuthenticationToken jwtToken, @PathVariable Integer pid, @PathVariable Integer quantity){
         FirebaseUserData firebaseUserData = JwtUtil.getFirebaseUserData(jwtToken);
         CartItemDetailsData cartItemDetailsData = cartItemService.putCartItem(firebaseUserData, pid, quantity);
 
-        return new CartModifyingResponseDto(cartItemDetailsData);
+        return new ResultResponseDto(cartItemDetailsData);
     }
 
     @GetMapping()
@@ -52,10 +51,10 @@ public class CartItemApi {
     }
 
     @DeleteMapping("/{pid}")
-    public CartModifyingResponseDto deleteCartItem(JwtAuthenticationToken jwtToken, @PathVariable Integer pid){
+    public ResultResponseDto deleteCartItem(JwtAuthenticationToken jwtToken, @PathVariable Integer pid){
         boolean ifSuccess = cartItemService.deleteCartItem(JwtUtil.getFirebaseUserData(jwtToken), pid);
 
-        return new CartModifyingResponseDto(ifSuccess);
+        return new ResultResponseDto(ifSuccess);
     }
 }
 

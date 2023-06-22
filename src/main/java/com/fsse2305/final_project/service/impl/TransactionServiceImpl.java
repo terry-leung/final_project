@@ -1,6 +1,8 @@
 package com.fsse2305.final_project.service.impl;
 
 import com.fsse2305.final_project.data.cartItem.entity.CartItemEntity;
+import com.fsse2305.final_project.data.product.entity.ProductEntity;
+import com.fsse2305.final_project.data.transaction.TransactionStatus;
 import com.fsse2305.final_project.data.transaction.domainObject.TransactionDetailData;
 import com.fsse2305.final_project.data.transaction.entity.TransactionEntity;
 import com.fsse2305.final_project.data.transactionProduct.entity.TransactionProductEntity;
@@ -56,15 +58,32 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDetailData getTransactionById(FirebaseUserData firebaseUserData, Integer tid){
         try {
             UserEntity userEntity = userService.getEntityByFirebaseUserData(firebaseUserData);
-            Optional<TransactionEntity> optionalTransactionEntity = transactionRepository.findByTidAndUid(tid, userEntity.getUid());
-            if (optionalTransactionEntity.isEmpty()) {
-                logger.warn("Get Transaction Failed: No transaction found");
-                throw new TransactionNotFoundException();
-            }
-            return new TransactionDetailData(optionalTransactionEntity.get());
+            return new TransactionDetailData(getTransactionByTidAndUid(tid, userEntity.getUid()));
         } catch (TransactionGeneralException ex){
             logger.warn("Get Transaction Failed: No matching recording found by user");
             throw ex;
         }
+    }
+
+    @Override
+    public boolean updateTransactionStatusById(FirebaseUserData firebaseUserData, Integer tid){
+        UserEntity userEntity = userService.getEntityByFirebaseUserData(firebaseUserData);
+        TransactionEntity transactionEntity = getTransactionByTidAndUid(tid, userEntity.getUid());
+        for(TransactionProductEntity transactionProductEntity: transactionEntity.getTransactionProducts()){
+            ProductEntity productEntity = productService.getProductEntityByPid(transactionProductEntity.getPid());
+            productService.setProductStockByEntity(productEntity, transactionProductEntity.getQuantity());
+        }
+        transactionEntity.setStatus(TransactionStatus.PROCESSING);
+        transactionRepository.save(transactionEntity);
+        return true;
+    }
+
+    public TransactionEntity getTransactionByTidAndUid(Integer tid, Integer uid){
+        Optional<TransactionEntity> optionalTransactionEntity = transactionRepository.findByTidAndUid(tid, uid);
+        if (optionalTransactionEntity.isEmpty()) {
+            logger.warn("Get Transaction Failed: No transaction found");
+            throw new TransactionNotFoundException();
+        }
+        return optionalTransactionEntity.get();
     }
 }
