@@ -12,6 +12,7 @@ import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class TransactionResponseDto {
     public TransactionResponseDto(TransactionDetailData data){
         this.tid = data.getTid();
         this.buyerUid = data.getUser().getUid();
-        this.datetime = data.getDatetime();
+        this.datetime = data.getDatetime().format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HH:mm:ss"));
         this.status = data.getStatus();
         this.total = data.getTotal();
         this.transactionProducts = data.getTransactionProducts().stream().map(TransactionProductResponseDto::new).collect(Collectors.toList());

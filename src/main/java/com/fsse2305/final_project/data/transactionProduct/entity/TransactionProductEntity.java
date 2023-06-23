@@ -52,6 +52,7 @@ public class TransactionProductEntity {
         this.price = cartItemEntity.getProduct().getPrice();
         this.stock = cartItemEntity.getProduct().getStock();
         this.quantity = cartItemEntity.getQuantity();
+        //better by using setter -> setSubtotal();
         this.subtotal = cartItemEntity.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItemEntity.getQuantity()));
     }
 

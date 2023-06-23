@@ -52,6 +52,7 @@ public class TransactionServiceImpl implements TransactionService {
             }
             TransactionEntity newTransaction = new TransactionEntity(cartUser);
             for (CartItemEntity cartItemEntity : cartItemEntityList) {
+                //Use TransactionProduct Repository in TP_Service for below
                 TransactionProductEntity transactionProductEntity = new TransactionProductEntity(newTransaction, cartItemEntity);
                 newTransaction.setTotal(newTransaction.getTotal().add(transactionProductEntity.getSubtotal()));
                 newTransaction.getTransactionProducts().add(transactionProductEntity);

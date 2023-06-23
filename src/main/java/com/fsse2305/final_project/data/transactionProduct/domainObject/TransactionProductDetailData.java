@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 public class TransactionProductDetailData {
     private Integer tpid;
-    private Integer tid;
+//    private Integer tid;
     private Integer pid;
     private String name;
     private String description;
@@ -20,7 +20,7 @@ public class TransactionProductDetailData {
 
     public TransactionProductDetailData(TransactionProductEntity entity){
         this.tpid = entity.getTpid();
-        this.tid = entity.getTransaction().getTid();
+//        this.tid = entity.getTransaction().getTid();
         this.pid = entity.getPid();
         this.name = entity.getName();
         this.description = entity.getDescription();
@@ -39,13 +39,13 @@ public class TransactionProductDetailData {
         this.tpid = tpid;
     }
 
-    public Integer getTid() {
-        return tid;
-    }
-
-    public void setTid(Integer tid) {
-        this.tid = tid;
-    }
+//    public Integer getTid() {
+//        return tid;
+//    }
+//
+//    public void setTid(Integer tid) {
+//        this.tid = tid;
+//    }
 
     public Integer getPid() {
         return pid;

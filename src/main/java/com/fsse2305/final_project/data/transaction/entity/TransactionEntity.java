@@ -20,7 +20,7 @@ public class TransactionEntity {
     private Integer tid;
 
     @ManyToOne
-    @JoinColumn(name = "buyerUid", nullable = false)
+    @JoinColumn(name = "buyer_uid", nullable = false)
     private UserEntity user;
 
     @Column(nullable = false)

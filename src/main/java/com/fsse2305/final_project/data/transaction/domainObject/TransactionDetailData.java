@@ -6,8 +6,10 @@ import com.fsse2305.final_project.data.transactionProduct.domainObject.Transacti
 import com.fsse2305.final_project.data.user.domainObject.UserDetailData;
 import com.fsse2305.final_project.data.user.entity.UserEntity;
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 public class TransactionDetailData {
     private Integer tid;
     private UserDetailData user;
-    private String datetime;
+    private LocalDateTime datetime;
     private TransactionStatus status;
     private BigDecimal total;
     private List<TransactionProductDetailData> transactionProducts;
@@ -24,9 +26,10 @@ public class TransactionDetailData {
     public TransactionDetailData(TransactionEntity entity){
         this.tid = entity.getTid();
         this.user = new UserDetailData(entity.getUser());
-        this.datetime = entity.getDatetime().format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HH:mm:ss"));
+        this.datetime = entity.getDatetime();
         this.status = entity.getStatus();
         this.total = entity.getTotal();
+        // = use for loop in setter
         this.transactionProducts = entity.getTransactionProducts().stream().map(TransactionProductDetailData::new).collect(Collectors.toList());
     }
 
@@ -54,11 +57,11 @@ public class TransactionDetailData {
         this.user = user;
     }
 
-    public String getDatetime() {
+    public LocalDateTime getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(String datetime) {
+    public void setDatetime(LocalDateTime datetime) {
         this.datetime = datetime;
     }
 
