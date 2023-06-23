@@ -9,4 +9,6 @@ public interface TransactionService {
     TransactionDetailData getTransactionById(FirebaseUserData firebaseUserData, Integer tid);
 
     boolean updateTransactionStatusById(FirebaseUserData firebaseUserData, Integer tid);
+
+    TransactionDetailData updateTransactionSuccessById(FirebaseUserData firebaseUserData, Integer tid);
 }

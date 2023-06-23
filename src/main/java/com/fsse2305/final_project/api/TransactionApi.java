@@ -32,8 +32,15 @@ public class TransactionApi {
     }
 
     @PatchMapping("/{tid}/pay")
-    public ResultResponseDto updateTransactionStatusById(JwtAuthenticationToken jwtToken, @PathVariable Integer tid){
+    public ResultResponseDto updateTransactionStatusProcessingById(JwtAuthenticationToken jwtToken, @PathVariable Integer tid){
 
         return new ResultResponseDto(transactionService.updateTransactionStatusById(JwtUtil.getFirebaseUserData(jwtToken), tid));
+    }
+
+    @PatchMapping("{tid}/finish")
+
+    public TransactionResponseDto updateTransactionStatusSuccessById(JwtAuthenticationToken jwtToken, @PathVariable Integer tid){
+
+        return new TransactionResponseDto(transactionService.updateTransactionSuccessById(JwtUtil.getFirebaseUserData(jwtToken), tid));
     }
 }

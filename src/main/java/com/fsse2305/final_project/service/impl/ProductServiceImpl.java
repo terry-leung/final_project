@@ -3,10 +3,13 @@ package com.fsse2305.final_project.service.impl;
 import com.fsse2305.final_project.data.product.domainObject.ProductDetailsData;
 import com.fsse2305.final_project.data.product.domainObject.ProductRequestData;
 import com.fsse2305.final_project.data.product.entity.ProductEntity;
+import com.fsse2305.final_project.data.user.entity.UserEntity;
+import com.fsse2305.final_project.exception.ExceedMaximumStockException;
 import com.fsse2305.final_project.exception.ProductModifyingException;
 import com.fsse2305.final_project.exception.ProductNotFoundException;
 import com.fsse2305.final_project.repository.ProductRepository;
 import com.fsse2305.final_project.service.ProductService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +88,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void setProductStockByEntity(ProductEntity entity, Integer quantity){
+        if(entity.getStock() < quantity){
+            logger.warn("Order Quantity Exceeds Available Stock");
+            throw new ExceedMaximumStockException();
+        }
         productRepository.setProductStockByPid(entity.getPid(), quantity);
     }
+
 
 }

@@ -33,7 +33,7 @@ public class TransactionEntity {
     @Column(nullable = false)
     private BigDecimal total;
 
-    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "transaction", cascade = CascadeType.PERSIST)
     private List<TransactionProductEntity> transactionProducts;
 
     public TransactionEntity(UserEntity cartUser){

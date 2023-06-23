@@ -144,4 +144,9 @@ public class CartItemServiceImpl implements CartItemService {
 //
 //    }
 
+    @Override
+    public void deleteCartItemsByUid(Integer uid){
+        cartItemRepository.deleteByUid(uid);
+    }
+
 }
