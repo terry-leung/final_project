@@ -1,5 +1,6 @@
 package com.fsse2305.final_project.data.transaction.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fsse2305.final_project.data.transaction.TransactionStatus;
@@ -21,6 +22,7 @@ public class TransactionResponseDto {
     private Integer tid;
     @JsonProperty("buyer_uid")
     private Integer buyerUid;
+//    @JsonFormat(pattern = "yyyyMMdd'T'HH:mm:ss")
     private String datetime;
     private TransactionStatus status;
     private BigDecimal total;

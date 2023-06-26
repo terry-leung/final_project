@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -29,27 +30,27 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
-    @Override
-    public ProductDetailsData createProduct(ProductRequestData productRequestData) {
-            if (productRequestData.getName() == null ||
-                    productRequestData.getPrice() == null ||
-                    productRequestData.getStock() == null) {
-                logger.warn("Create product failed: Data missing");
-                throw new ProductModifyingException();
-            }
-            if (productRequestData.getPrice().compareTo(BigDecimal.valueOf(0)) < 0) {
-                logger.warn("Create product failed: Invalid price");
-                throw new ProductModifyingException();
-            }
-            if (productRequestData.getStock() < 0) {
-                logger.warn("Create product failed: Invalid stock number");
-                throw new ProductModifyingException();
-            }
-            ProductEntity productEntity = new ProductEntity(productRequestData);
-
-            return new ProductDetailsData(productRepository.save(productEntity));
-
-    }
+//    @Override
+//    public ProductDetailsData createProduct(ProductRequestData productRequestData) {
+//            if (productRequestData.getName() == null ||
+//                    productRequestData.getPrice() == null ||
+//                    productRequestData.getStock() == null) {
+//                logger.warn("Create product failed: Data missing");
+//                throw new ProductModifyingException();
+//            }
+//            if (productRequestData.getPrice().compareTo(BigDecimal.valueOf(0)) < 0) {
+//                logger.warn("Create product failed: Invalid price");
+//                throw new ProductModifyingException();
+//            }
+//            if (productRequestData.getStock() < 0) {
+//                logger.warn("Create product failed: Invalid stock number");
+//                throw new ProductModifyingException();
+//            }
+//            ProductEntity productEntity = new ProductEntity(productRequestData);
+//
+//            return new ProductDetailsData(productRepository.save(productEntity));
+//
+//    }
 
     @Override
     public List<ProductDetailsData> getProductList(){
@@ -64,10 +65,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDetailsData getProductById(Integer pid){
         try {
-//        if(productEntity == null){
-//            logger.warn("No Product Found");
-//            throw new ProductNotFoundException();
-//        }
             return new ProductDetailsData(getProductEntityByPid(pid));
         } catch (ProductNotFoundException ex) {
             logger.warn("Product not found");
@@ -77,13 +74,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductEntity getProductEntityByPid(Integer pid){
-//        Optional<ProductEntity> optionalEntity = productRepository.findById(pid);
-//        if (optionalEntity.isEmpty()){
-//            throw new ProductNotFoundException();
-//        }
-//        return optionalEntity.get();
+        Optional<ProductEntity> optionalEntity = productRepository.findById(pid);
+        if (optionalEntity.isEmpty()){
+            logger.warn("Product not found");
+            throw new ProductNotFoundException();
+        }
+        return optionalEntity.get();
+//        *** another method (without logging) ***
 //        return productRepository.findById(pid).orElseThrow(() -> new ProductNotFoundException());
-        return productRepository.findById(pid).orElseThrow(ProductNotFoundException::new);
+//        return productRepository.findById(pid).orElseThrow(ProductNotFoundException::new);
     }
 
     @Override

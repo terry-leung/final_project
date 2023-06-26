@@ -28,6 +28,9 @@ public interface CartItemRepository extends CrudRepository<CartItemEntity, Integ
     @Transactional
     @Query(value = "DELETE FROM cart_item WHERE uid =?1", nativeQuery = true)
     void deleteByUid (Integer uid);
+    @Modifying
+    @Query(value = "DELETE FROM cart_item WHERE cid =?1", nativeQuery = true)
+    void deleteById (Integer cid);
 
 //    @Query(value = "SELECT * FROM cart_item WHERE pid = ?1", nativeQuery = true)
 //    CartItemEntity findByPid(Integer pid);

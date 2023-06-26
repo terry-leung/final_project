@@ -7,7 +7,7 @@ import com.fsse2305.final_project.data.product.entity.ProductEntity;
 import java.util.List;
 
 public interface ProductService {
-    ProductDetailsData createProduct(ProductRequestData productRequestData);
+//    ProductDetailsData createProduct(ProductRequestData productRequestData);
 
     List<ProductDetailsData> getProductList();
 

@@ -45,7 +45,7 @@ public class CartItemServiceImpl implements CartItemService {
             ProductEntity productEntity = productService.getProductEntityByPid(pid);
 
             if (optionalCartItemEntity.isEmpty()) {
-                if (quantity >= productService.getProductById(pid).getStock()) {
+                if (quantity > productService.getProductById(pid).getStock()) {
                     logger.warn("Add item error: Exceed maximum stock");
                     throw new ExceedMaximumStockException();
                 } else {
@@ -55,7 +55,7 @@ public class CartItemServiceImpl implements CartItemService {
                 }
             } else {
                 CartItemEntity cartItemEntity = optionalCartItemEntity.get();
-                if (quantity + cartItemEntity.getQuantity() >= productService.getProductById(pid).getStock()) {
+                if (quantity + cartItemEntity.getQuantity() > productService.getProductById(pid).getStock()) {
                     logger.warn("Add item error: Exceed maximum stock");
                     throw new ExceedMaximumStockException();
                 } else {
@@ -65,7 +65,7 @@ public class CartItemServiceImpl implements CartItemService {
                 }
             }
         } catch (CartItemModifyingException ex){
-            logger.warn("Put CartItem failed: Product not found");
+            logger.warn("Put CartItem failed");
             throw ex;
         }
 
@@ -73,7 +73,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     public List<CartItemDetailsData> getUserCartItems(FirebaseUserData firebaseUserData){
-        // can create method to get userentity
+        // can create method to get userEntity
         UserEntity cartUser = userService.getEntityByFirebaseUserData(firebaseUserData);
         List<CartItemDetailsData> cartItemDetailsDataList = new ArrayList<>();
         for (CartItemEntity cartItemEntity : cartItemRepository.getAllCartItemsByUid(cartUser.getUid())){
@@ -84,7 +84,6 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-
     public CartItemDetailsData updateCartQuantity(FirebaseUserData firebaseUserData, Integer pid, Integer quantity) {
         UserEntity cartUser = userService.getEntityByFirebaseUserData(firebaseUserData);
         Optional<CartItemEntity> optionalUpdateCartItem = cartItemRepository.findCartItemsByUidAndPid(cartUser.getUid(), pid);
@@ -104,11 +103,10 @@ public class CartItemServiceImpl implements CartItemService {
             logger.warn("Add item error: Exceed maximum stock");
             throw new ExceedMaximumStockException();
         }
+        cartItemEntity.setQuantity(quantity);
         if (quantity == 0) {
             cartItemRepository.deleteById(cartItemEntity.getCid());
-            cartItemEntity.setQuantity(quantity);
         }
-        cartItemEntity.setQuantity(quantity);
         cartItemEntity = cartItemRepository.save(cartItemEntity);
         return new CartItemDetailsData(cartItemEntity);
     }

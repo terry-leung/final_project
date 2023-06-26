@@ -25,11 +25,12 @@ public class CartItemApi {
     }
 
     @PutMapping("/{pid}/{quantity}")
-    public ResultResponseDto putCartItem(JwtAuthenticationToken jwtToken, @PathVariable Integer pid, @PathVariable Integer quantity){
-        FirebaseUserData firebaseUserData = JwtUtil.getFirebaseUserData(jwtToken);
-        CartItemDetailsData cartItemDetailsData = cartItemService.putCartItem(firebaseUserData, pid, quantity);
+    public ResultResponseDto putCartItem(
+            JwtAuthenticationToken jwtToken,
+            @PathVariable Integer pid, @PathVariable Integer quantity){
 
-        return new ResultResponseDto(cartItemDetailsData);
+        return new ResultResponseDto(
+                cartItemService.putCartItem(JwtUtil.getFirebaseUserData(jwtToken), pid, quantity));
     }
 
     @GetMapping()

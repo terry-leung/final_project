@@ -17,6 +17,7 @@ import com.fsse2305.final_project.service.CartItemService;
 import com.fsse2305.final_project.service.ProductService;
 import com.fsse2305.final_project.service.TransactionService;
 import com.fsse2305.final_project.service.UserService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public boolean updateTransactionStatusById(FirebaseUserData firebaseUserData, Integer tid){
         try {
             UserEntity userEntity = userService.getEntityByFirebaseUserData(firebaseUserData);
@@ -100,10 +102,15 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public TransactionDetailData updateTransactionSuccessById(FirebaseUserData firebaseUserData, Integer tid){
         try {
             UserEntity userEntity = userService.getEntityByFirebaseUserData(firebaseUserData);
             TransactionEntity transactionEntity = getTransactionByTidAndUid(tid, userEntity.getUid());
+            if (!(transactionEntity.getStatus() == TransactionStatus.PROCESSING)) {
+                logger.warn("Transaction Processing Failed: Transaction has not yet been processed");
+                throw new TransactionProcessingException();
+            }
             cartItemService.deleteCartItemsByUid(userEntity.getUid());
             transactionEntity.setStatus(TransactionStatus.SUCCESS);
             transactionEntity = transactionRepository.save(transactionEntity);
@@ -115,6 +122,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public TransactionEntity getTransactionByTidAndUid(Integer tid, Integer uid){
+        // return .... .orElseThrow(exception::new);
         Optional<TransactionEntity> optionalTransactionEntity = transactionRepository.findByTidAndUid(tid, uid);
         if (optionalTransactionEntity.isEmpty()) {
             logger.warn("Get Transaction Failed: No transaction found");
