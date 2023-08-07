@@ -1,5 +1,6 @@
 package com.fsse2305.final_project.api;
 
+import com.fsse2305.final_project.config.EnvConfig;
 import com.fsse2305.final_project.data.product.domainObject.ProductDetailsData;
 import com.fsse2305.final_project.data.product.dto.response.ProductDetailsResponseDto;
 import com.fsse2305.final_project.data.product.dto.response.ProductListResponseDto;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin({EnvConfig.devConfig, EnvConfig.prodConfig})
 @RestController
 public class ProductApi {
     private final ProductService productService;

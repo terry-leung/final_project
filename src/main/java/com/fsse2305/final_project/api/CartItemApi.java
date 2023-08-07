@@ -1,5 +1,6 @@
 package com.fsse2305.final_project.api;
 
+import com.fsse2305.final_project.config.EnvConfig;
 import com.fsse2305.final_project.data.cartItem.domainObject.CartItemDetailsData;
 import com.fsse2305.final_project.data.cartItem.dto.response.CartItemResponseDto;
 import com.fsse2305.final_project.resultStatus.ResultResponseDto;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin({EnvConfig.devConfig, EnvConfig.prodConfig})
 @RestController
 @RequestMapping("/cart")
 public class CartItemApi {

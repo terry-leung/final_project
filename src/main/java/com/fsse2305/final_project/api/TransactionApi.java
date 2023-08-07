@@ -1,5 +1,6 @@
 package com.fsse2305.final_project.api;
 
+import com.fsse2305.final_project.config.EnvConfig;
 import com.fsse2305.final_project.data.transaction.domainObject.TransactionDetailData;
 import com.fsse2305.final_project.data.transaction.dto.response.TransactionResponseDto;
 import com.fsse2305.final_project.data.user.domainObject.FirebaseUserData;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin({EnvConfig.devConfig, EnvConfig.prodConfig})
 @RestController
 @RequestMapping("/transaction")
 public class TransactionApi {
