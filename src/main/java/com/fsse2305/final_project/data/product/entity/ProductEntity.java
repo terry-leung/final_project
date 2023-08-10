@@ -18,6 +18,8 @@ public class ProductEntity {
     @Column(nullable = false)
     private String name;
 
+    @Lob
+    @Column(columnDefinition = "VARCHAR(10000)")
     private String description;
 
     private String imageUrl;
